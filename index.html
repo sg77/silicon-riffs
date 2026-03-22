@@ -79,6 +79,29 @@
         color: #ddd;
     }
 
+    .about-content {
+        display: grid;
+        grid-template-columns: 1.2fr minmax(240px, 360px);
+        gap: 24px;
+        align-items: center;
+    }
+
+    .about-content .description {
+        max-width: none;
+    }
+
+    .about-image {
+        width: 100%;
+        border: 2px solid #222;
+        box-shadow: 0 0 18px rgba(0, 0, 0, 0.8);
+    }
+
+    @media (max-width: 900px) {
+        .about-content {
+            grid-template-columns: 1fr;
+        }
+    }
+
     /* Shows */
     .shows ul {
         list-style: none;
@@ -117,6 +140,37 @@
         margin: auto;
         border: 3px solid #222;
         box-shadow: 0 0 20px #e63946;
+        background: #000;
+        overflow: hidden;
+    }
+
+    .video-container iframe {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border: 0;
+        display: block;
+    }
+
+    .video-fallback {
+        display: none;
+        text-align: center;
+        padding: 36px 20px;
+    }
+
+    .video-fallback p {
+        margin: 0 0 14px;
+        color: #ddd;
+    }
+
+    .video-fallback a {
+        display: inline-block;
+        padding: 10px 16px;
+        border: 1px solid #e63946;
+        background: #111;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: bold;
     }
 
     /* Lightbox */
@@ -191,12 +245,15 @@
 <!-- ABOUT -->
 <section id="about">
     <h2>About the Band</h2>
-    <p class="description">
-        Silicon Riffs delivers high‑energy classic rock inspired by The Doors, CCR,
-        Queen, Bob Marley, Elvis, and more. With soulful vocals, tight grooves, and 
-        electrifying riffs, we bring vintage rock to life with a modern, gritty edge 
-        that shakes the walls and moves every crowd.
-    </p>
+    <div class="about-content">
+        <p class="description">
+            Silicon Riffs delivers high-energy classic rock inspired by The Doors, CCR,
+            Queen, Bob Marley, Elvis, and more. With soulful vocals, tight grooves, and
+            electrifying riffs, we bring vintage rock to life with a modern, gritty edge
+            that shakes the walls and moves every crowd.
+        </p>
+        <img class="about-image" src="resources/SiliconRiffs_black.jpg" alt="Silicon Riffs band photo" />
+    </div>
 </section>
 
 <!-- SHOWS -->
@@ -218,10 +275,18 @@
 <section id="video">
     <h2>Live Performance</h2>
     <div class="video-container">
-        <video width="100%" controls>
-            <source src="live-performance.mp4" type="video/mp4" />
-            Your browser does not support video playback.
-        </video>
+        <iframe
+            id="youtube-player"
+            src="https://www.youtube.com/embed/GZbIeCk4shY"
+            title="Silicon Riffs live performance"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+        </iframe>
+        <div class="video-fallback" id="youtube-fallback">
+            <p>Video preview is limited in local file mode.</p>
+            <a href="https://youtu.be/GZbIeCk4shY?feature=shared" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+        </div>
     </div>
 </section>
 
@@ -274,6 +339,14 @@
         img.decoding = "async";
         galleryGrid.appendChild(img);
     });
+
+    // YouTube embeds can fail on file:// due to browser/referrer restrictions.
+    const youtubePlayer = document.getElementById("youtube-player");
+    const youtubeFallback = document.getElementById("youtube-fallback");
+    if (window.location.protocol === "file:") {
+        youtubePlayer.style.display = "none";
+        youtubeFallback.style.display = "block";
+    }
 
     // Lightbox interactions.
     const lightbox = document.getElementById("lightbox");
