@@ -29,6 +29,13 @@
         gap: 16px;
     }
 
+    header.no-banner {
+        background:
+            radial-gradient(circle at 20% 25%, rgba(230, 57, 70, 0.45), transparent 42%),
+            radial-gradient(circle at 80% 15%, rgba(255, 0, 43, 0.3), transparent 38%),
+            linear-gradient(140deg, #120609 0%, #050505 55%, #18060b 100%);
+    }
+
     .band-logo {
         width: min(220px, 50vw);
         height: auto;
@@ -119,6 +126,7 @@
         border: 2px solid #222;
         box-shadow: 0 0 10px #000;
         transition: transform 0.3s, box-shadow 0.3s;
+        cursor: zoom-in;
     }
 
     .gallery img:hover {
@@ -132,6 +140,46 @@
         margin: auto;
         border: 3px solid #222;
         box-shadow: 0 0 20px #e63946;
+    }
+
+    /* Lightbox */
+    .lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 1000;
+    }
+
+    .lightbox.is-open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .lightbox img {
+        max-width: min(1100px, 94vw);
+        max-height: 88vh;
+        border: 2px solid #333;
+        box-shadow: 0 0 24px rgba(230, 57, 70, 0.55);
+    }
+
+    .lightbox button {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        border: 1px solid #e63946;
+        background: #111;
+        color: #fff;
+        font-size: 1.2rem;
+        line-height: 1;
+        padding: 8px 12px;
+        cursor: pointer;
     }
 
     /* Footer */
@@ -186,14 +234,7 @@
 <!-- GALLERY -->
 <section id="gallery">
     <h2>Gallery</h2>
-    <div class="gallery">
-        <img src="gallery/MEXPO 01-03-2026/559A2676.jpg" alt="MEXPO 01-03-2026" />
-        <img src="gallery/MEXPO 01-03-2026/559A2685.jpg" alt="MEXPO 01-03-2026" />
-        <img src="gallery/MEXPO 01-03-2026/559A2689.jpg" alt="MEXPO 01-03-2026" />
-        <img src="gallery/MEXPO 01-03-2026/559A2708.jpg" alt="MEXPO 01-03-2026" />
-        <img src="gallery/MEXPO 01-03-2026/559A2739.jpg" alt="MEXPO 01-03-2026" />
-        <img src="gallery/MEXPO 01-03-2026/559A2775.jpg" alt="MEXPO 01-03-2026" />
-        <img src="gallery/MEXPO 01-03-2026/559A2821.jpg" alt="MEXPO 01-03-2026" />
+    <div class="gallery" id="gallery-grid">
     </div>
 </section>
 
@@ -219,9 +260,83 @@
     © <span id="year"></span> Silicon Riffs — Keeping Rock Alive.
 </footer>
 
+<div class="lightbox" id="lightbox" aria-hidden="true">
+    <button type="button" id="lightbox-close" aria-label="Close image">X</button>
+    <img id="lightbox-image" src="" alt="Expanded gallery image" />
+</div>
+
 <script>
     // Auto-update year
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Use a styled fallback if the banner image is missing.
+    const heroHeader = document.querySelector("header");
+    const bannerProbe = new Image();
+    bannerProbe.onerror = function () {
+        heroHeader.classList.add("no-banner");
+    };
+    bannerProbe.src = "banner-dark.jpg";
+
+    // Build gallery from a single folder + filename list.
+    const galleryFolder = "gallery/MEXPO 01-03-2026";
+    const galleryFiles = [
+        "559A2676.jpg",
+        "559A2685.jpg",
+        "559A2689.jpg",
+        "559A2708.jpg",
+        "559A2739.jpg",
+        "559A2775.jpg",
+        "559A2821.jpg"
+    ];
+
+    const galleryGrid = document.getElementById("gallery-grid");
+    galleryFiles.forEach(function (fileName, index) {
+        const img = document.createElement("img");
+        img.src = encodeURI(galleryFolder + "/" + fileName);
+        img.alt = "Silicon Riffs live photo " + (index + 1);
+        img.loading = "lazy";
+        img.decoding = "async";
+        galleryGrid.appendChild(img);
+    });
+
+    // Lightbox interactions.
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightbox-image");
+    const lightboxClose = document.getElementById("lightbox-close");
+
+    function openLightbox(src, alt) {
+        lightboxImage.src = src;
+        lightboxImage.alt = alt;
+        lightbox.classList.add("is-open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove("is-open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lightboxImage.src = "";
+        document.body.style.overflow = "";
+    }
+
+    galleryGrid.addEventListener("click", function (event) {
+        if (event.target.tagName === "IMG") {
+            openLightbox(event.target.src, event.target.alt);
+        }
+    });
+
+    lightboxClose.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", function (event) {
+        if (event.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && lightbox.classList.contains("is-open")) {
+            closeLightbox();
+        }
+    });
 </script>
 
 </body>
