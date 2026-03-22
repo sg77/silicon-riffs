@@ -3,7 +3,15 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Silicon Riffs | Official Site</title>
+<title>Silicon Riffs Eindhoven | Live Rock Cover Band</title>
+<meta name="description" content="Silicon Riffs Eindhoven is a live rock cover band bringing high-energy classic rock shows across Eindhoven and beyond." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://sg77.github.io/silicon-riffs/" />
+<meta property="og:title" content="Silicon Riffs Eindhoven | Live Rock Cover Band" />
+<meta property="og:description" content="Live rock cover band based in Eindhoven with classic-inspired high-energy performances." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://sg77.github.io/silicon-riffs/" />
+<meta name="twitter:card" content="summary_large_image" />
 
 <style>
     /* Global */
@@ -40,6 +48,18 @@
         width: min(220px, 50vw);
         height: auto;
         filter: drop-shadow(0 0 12px rgba(230, 57, 70, 0.75));
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+        white-space: nowrap;
     }
 
     /* Navigation */
@@ -242,6 +262,7 @@
 
 <!-- HERO -->
 <header>
+    <h1 class="sr-only">Silicon Riffs Eindhoven live rock band</h1>
     <img class="band-logo" src="resources/logo.jpg" alt="Silicon Riffs logo" />
 </header>
 
@@ -259,12 +280,12 @@
     <h2>About the Band</h2>
     <div class="about-content">
         <p class="description">
-            Silicon Riffs delivers high-energy classic rock inspired by The Doors, CCR,
+            Based in Eindhoven, Silicon Riffs delivers high-energy classic rock inspired by The Doors, CCR,
             Queen, Bob Marley, Elvis, and more. With soulful vocals, tight grooves, and
             electrifying riffs, we bring vintage rock to life with a modern, gritty edge
             that shakes the walls and moves every crowd.
         </p>
-        <img class="about-image" src="resources/SiliconRiffs_black.jpg" alt="Silicon Riffs band photo" />
+        <img class="about-image" src="resources/SiliconRiffs_black.jpg" alt="Silicon Riffs Eindhoven band photo" />
     </div>
 </section>
 
@@ -320,6 +341,25 @@
 </div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "MusicGroup",
+    "name": "Silicon Riffs",
+    "description": "Silicon Riffs is a live rock band based in Eindhoven, Netherlands.",
+    "genre": ["Rock", "Classic Rock"],
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Eindhoven",
+        "addressCountry": "NL"
+    },
+    "sameAs": [
+        "https://www.instagram.com/silicon.riffs/",
+        "https://www.youtube.com/watch?v=GZbIeCk4shY"
+    ]
+}
+</script>
 
 <script>
     // Auto-update year
