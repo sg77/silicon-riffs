@@ -21,10 +21,18 @@
         height: 70vh;
         background: url('banner-dark.jpg') center/cover no-repeat;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
         position: relative;
+        gap: 16px;
+    }
+
+    .band-logo {
+        width: min(220px, 50vw);
+        height: auto;
+        filter: drop-shadow(0 0 12px rgba(230, 57, 70, 0.75));
     }
 
     header h1 {
@@ -143,16 +151,17 @@
 
 <!-- HERO -->
 <header>
+    <img class="band-logo" src="resources/logo.jpg" alt="Silicon Riffs logo" />
     <h1>Silicon Riffs</h1>
 </header>
 
 <!-- NAV -->
 <nav>
-    #aboutAbout</a>
-    #showsShows</a>
-    #galleryGallery</a>
-    #videoVideo</a>
-    #contactContact</a>
+    <a href="#about">About</a>
+    <a href="#shows">Shows</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#video">Video</a>
+    <a href="#contact">Contact</a>
 </nav>
 
 <!-- ABOUT -->
@@ -178,9 +187,14 @@
 <section id="gallery">
     <h2>Gallery</h2>
     <div class="gallery">
-        img1.jpg
-        img2.jpg
-        <img src="img3.jpg" alt="Band photo 
+        <img src="gallery/559A2676.jpg" alt="MEXPO 01-03-2026" />
+        <img src="gallery/559A2685.jpg" alt="MEXPO 01-03-2026" />
+        <img src="gallery/559A2689.jpg" alt="MEXPO 01-03-2026" />
+        <img src="gallery/559A2708.jpg" alt="MEXPO 01-03-2026" />
+        <img src="gallery/559A2739.jpg" alt="MEXPO 01-03-2026" />
+        <img src="gallery/559A2775.jpg" alt="MEXPO 01-03-2026" />
+        <img src="gallery/559A2821.jpg" alt="MEXPO 01-03-2026" />
+    </div>
 </section>
 
 <!-- VIDEO -->
@@ -188,7 +202,7 @@
     <h2>Live Performance</h2>
     <div class="video-container">
         <video width="100%" controls>
-            live-performance.mp4
+            <source src="live-performance.mp4" type="video/mp4" />
             Your browser does not support video playback.
         </video>
     </div>
