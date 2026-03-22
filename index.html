@@ -26,7 +26,7 @@
         align-items: center;
         text-align: center;
         position: relative;
-        gap: 16px;
+        gap: 0;
     }
 
     header.no-banner {
@@ -40,29 +40,6 @@
         width: min(220px, 50vw);
         height: auto;
         filter: drop-shadow(0 0 12px rgba(230, 57, 70, 0.75));
-    }
-
-    header h1 {
-        font-size: 4.5rem;
-        color: #fff;
-        letter-spacing: 5px;
-        text-shadow: 0 0 10px #e63946, 0 0 25px #e63946;
-        animation: flicker 3s infinite;
-    }
-
-    @keyframes flicker {
-        0%, 19%, 21%, 50%, 52%, 100% {
-            opacity: 1;
-            text-shadow: 
-                0 0 5px #e63946,
-                0 0 15px #e63946,
-                0 0 25px #e63946,
-                0 0 40px #ff002b;
-        }
-        20%, 51% {
-            opacity: 0.3;
-            text-shadow: none;
-        }
     }
 
     /* Navigation */
@@ -200,7 +177,6 @@
 <!-- HERO -->
 <header>
     <img class="band-logo" src="resources/logo.jpg" alt="Silicon Riffs logo" />
-    <h1>Silicon Riffs</h1>
 </header>
 
 <!-- NAV -->
