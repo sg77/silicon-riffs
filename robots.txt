@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sg77.github.io/silicon-riffs/sitemap.xml
