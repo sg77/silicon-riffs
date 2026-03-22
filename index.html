@@ -289,14 +289,14 @@
     <div class="video-container">
         <iframe
             id="youtube-player"
-            src="https://www.youtube.com/embed/GZbIeCk4shY"
+            src="https://www.youtube.com/embed/GZbIeCk4shY?enablejsapi=1"
             title="Silicon Riffs live performance"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen>
         </iframe>
         <div class="video-fallback" id="youtube-fallback">
-            <p>Video preview is limited in local file mode.</p>
+            <p id="youtube-fallback-message">Video preview is limited in local file mode.</p>
             <a href="https://youtu.be/GZbIeCk4shY?feature=shared" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
         </div>
     </div>
@@ -318,6 +318,8 @@
     <button type="button" id="lightbox-close" aria-label="Close image">X</button>
     <img id="lightbox-image" src="" alt="Expanded gallery image" />
 </div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
     // Auto-update year
@@ -356,9 +358,45 @@
     // YouTube embeds can fail on file:// due to browser/referrer restrictions.
     const youtubePlayer = document.getElementById("youtube-player");
     const youtubeFallback = document.getElementById("youtube-fallback");
-    if (window.location.protocol === "file:") {
+    const youtubeFallbackMessage = document.getElementById("youtube-fallback-message");
+
+    function showYoutubeFallback(message) {
         youtubePlayer.style.display = "none";
         youtubeFallback.style.display = "block";
+        if (message) {
+            youtubeFallbackMessage.textContent = message;
+        }
+    }
+
+    if (window.location.protocol === "file:") {
+        showYoutubeFallback("Video preview is limited in local file mode.");
+    } else {
+        let ytReady = false;
+        const ytTimeout = window.setTimeout(function () {
+            if (!ytReady) {
+                showYoutubeFallback("Video could not be loaded here right now.");
+            }
+        }, 6000);
+
+        window.onYouTubeIframeAPIReady = function () {
+            new YT.Player("youtube-player", {
+                events: {
+                    onReady: function () {
+                        ytReady = true;
+                        window.clearTimeout(ytTimeout);
+                    },
+                    onError: function (event) {
+                        ytReady = false;
+                        window.clearTimeout(ytTimeout);
+                        if (event.data === 101 || event.data === 150) {
+                            showYoutubeFallback("This video does not allow embedding on external sites.");
+                        } else {
+                            showYoutubeFallback("Video could not be loaded here right now.");
+                        }
+                    }
+                }
+            });
+        };
     }
 
     // Lightbox interactions.
